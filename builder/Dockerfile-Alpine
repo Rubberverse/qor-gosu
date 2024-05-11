@@ -49,7 +49,7 @@ RUN apk upgrade --no-cache \
     && sed -i -e "s/go ${INFILE_VERSION}/${GO_VERSION}/g" ${GOPATH}/gosu/go.mod \
     && go get -u -d ./... \
     && go mod tidy \
-    && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /app/go/bin/gosu-${TARGETARCH} -v -a -ldflags '-s -d -w' ./ \
+    && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /app/go/bin/gosu-${TARGETARCH} -v -a -trimpath -ldflags '-s -d -w' ./ \
     && go install golang.org/x/vuln/cmd/govulncheck@latest \
     && govulncheck . \
     && rm -rf /app/go/cache /tmp /app/go/gosu /app/go/bin/govulncheck /usr/bin/go
