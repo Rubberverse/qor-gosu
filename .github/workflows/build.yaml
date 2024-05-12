@@ -56,6 +56,7 @@ jobs:
               image: mrrubberducky/qor-gosu
               registry: docker.io
               dockerfile: builder/Dockerfile-Alpine
+              buildArgs: BUILDPLATFORM=linux/amd64
               multiPlatform: true
               overrideDriver: true
               enableBuildKit: true

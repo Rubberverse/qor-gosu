@@ -30,9 +30,10 @@ RUN apk upgrade --no-cache \
         git \
         tar \
         jq \
+        file \
     && export GO_VERSION=$(curl https://go.dev/dl/?mode=json | jq -r '.[0].version' ) \
     && curl -LO go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzvf "${GO_VERSION}".linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf "${GO_VERSION}".linux-amd64.tar.gz \
     && rm "${GO_VERSION}".linux-amd64.tar.gz \
     && export PATH=${PATH}:/usr/local/go/bin:/app/go/bin \
     && mkdir -p ${GOPATH} \
@@ -54,4 +55,5 @@ RUN apk upgrade --no-cache \
     && govulncheck . \
     && rm -rf /app/go/cache /tmp /app/go/gosu /app/go/bin/govulncheck /usr/bin/go \
     && apk del --rdepends \
-        build-deps
+        build-deps \
+    && file /app/go/bin/gosu-${TARGETARCH}
