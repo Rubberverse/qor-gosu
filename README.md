@@ -10,7 +10,7 @@ The main point of this quick repository is to just build against latest Go versi
 
 ## For Docker Hub
 
-These images are built using GitHub actions, workflow file can be found [here](https://github.com/Rubberverse/qor-gosu/blob/main/.github/build.yaml)
+These images are built using GitHub actions, workflow file can be found [here](https://github.com/Rubberverse/qor-gosu/blob/main/.github/workflows/build.yaml)
 
 You can find the repository + Dockerfile for this project [here](https://github.com/Rubberverse/qor-gosu)
 
