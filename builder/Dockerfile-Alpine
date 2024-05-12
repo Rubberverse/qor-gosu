@@ -53,7 +53,7 @@ RUN apk upgrade --no-cache \
     && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /app/go/bin/gosu-${TARGETARCH} -v -a -trimpath -ldflags '-s -w' ./ \
     && go install golang.org/x/vuln/cmd/govulncheck@latest \
     && govulncheck . \
+    && file /app/go/bin/gosu-"${TARGETARCH}" \
     && rm -rf /app/go/cache /tmp /app/go/gosu /app/go/bin/govulncheck /usr/bin/go \
     && apk del --rdepends \
-        build-deps \
-    && file /app/go/bin/gosu-${TARGETARCH}
+        build-deps
