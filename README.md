@@ -16,11 +16,22 @@ You can find the repository + Dockerfile for this project [here](https://github.
 
 ## Usage
 
-1. Pull this image in your project with `FROM ghcr.io/rubberverse/qor-gosu:latest-alpine AS gosu`
-2. Use it in your images, copy the binary you need from `/app/go/bin/caddy-${TARGETARCH}`
+1. Pull this image in your project with `FROM docker.io/mrrubberducky/qor-gosu:latest-alpine AS gosu`
+2. Use it in your images, copy the binary you need from `/app/go/bin/gosu-${TARGETARCH}`
 
-**Do not use this image as a base for your project**, it only should be used to pull a binary from due to size constraints and the fact that base image has packages for amd64 so it won't work for other architectures
+**Do not use this image as a base for your project**. As in, don't treat it like a blank base to build upon, instead you should COPY the binary you need from the image for your architecture into a seperate layer. To give a example what I'm talking about, look at example Dockerfile below.
 
-## Credits
+## Example Dockerfile
 
-All this does is pull gosu from tianon's repository and builds it against latest Go version. All credits go to them and contributors when it comes to `gosu` as a piece of software.
+```Dockerfile
+FROM docker.io/mrrubberducky/qor-gosu:latest-alpine AS gosu
+
+FROM docker.io/library/alpine:v3.19.1
+WORKDIR /app
+
+ARG TARGETARCH
+
+COPY --from=gosu /app/go/bin/gosu-"${TARGETARCH}" /app/bin/gosu
+
+(do the rest)
+```
