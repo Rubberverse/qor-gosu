@@ -39,7 +39,7 @@ jobs:
             name: Build the helper image using golang cross-compilation then push to ghcr
             with:
                 image: qor-gosu/gosu-binary
-                tags: alpine-v0.1, latest-alpine
+                tags: alpine-v0.2, latest-alpine
                 buildArgs: BUILDPLATFORM=linux/amd64
                 dockerfile: builder/Dockerfile-Alpine
                 registry: ghcr.io
@@ -60,7 +60,7 @@ jobs:
               multiPlatform: true
               overrideDriver: true
               enableBuildKit: true
-              tags: alpine-v0.1, latest-alpine
+              tags: alpine-v0.2, latest-alpine
               platform: linux/amd64,linux/i386,linux/arm/v5,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/riscv64,linux/mips64le,linux/s390x
               username: ${{ secrets.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_TOKEN }}
