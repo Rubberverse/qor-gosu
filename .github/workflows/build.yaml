@@ -35,21 +35,6 @@ jobs:
             with:
                 driver-opts: image=moby/buildkit:master
 
-          - uses: mr-smithers-excellent/docker-build-push@v6
-            name: Build the helper image using golang cross-compilation then push to ghcr
-            with:
-                image: qor-gosu/gosu-binary
-                tags: alpine-v0.3, latest-alpine
-                buildArgs: BUILDPLATFORM=linux/amd64
-                dockerfile: builder/Dockerfile-Alpine
-                registry: ghcr.io
-                multiPlatform: true
-                overrideDriver: true
-                enableBuildKit: true
-                platform: linux/amd64,linux/i386,linux/arm/v5,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/riscv64,linux/mips64le,linux/s390x
-                username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
-
           - name: Build the helper image using golang cross-compilation then push to docker hub
             uses: mr-smithers-excellent/docker-build-push@v6
             with:
@@ -60,7 +45,7 @@ jobs:
               multiPlatform: true
               overrideDriver: true
               enableBuildKit: true
-              tags: alpine-v0.3, latest-alpine
+              tags: alpine-v0.4, latest-alpine
               platform: linux/amd64,linux/i386,linux/arm/v5,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/riscv64,linux/mips64le,linux/s390x
               username: ${{ secrets.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_TOKEN }}
