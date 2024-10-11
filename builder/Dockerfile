@@ -4,7 +4,7 @@ ARG IMAGE_ALPINE_VERSION=edge
 ARG TARGETPLATFORM
 ARG TARGETARCH
 
-FROM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu-builder
+FROM --platform=$TARGETPLATFORM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu-builder
 WORKDIR /app
 
 ARG TARGETOS
@@ -59,7 +59,10 @@ RUN apk upgrade --no-cache \
     && apk del --rdepends \
         build-deps
 
-FROM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu
+ARG TARGETPLATFORM
+ARG TARGETARCH
+
+FROM --from=$TARGETPLATFORM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu
 WORKDIR /app
 
 COPY --from=gosu-builder /app/go/bin/gosu-$TARGETARCH /app/gosu
