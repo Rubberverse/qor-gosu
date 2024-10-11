@@ -62,7 +62,7 @@ RUN apk upgrade --no-cache \
 ARG TARGETPLATFORM
 ARG TARGETARCH
 
-FROM --from=$TARGETPLATFORM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu
+FROM --platform=$TARGETPLATFORM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu
 WORKDIR /app
 
 COPY --from=gosu-builder /app/go/bin/gosu-$TARGETARCH /app/gosu
