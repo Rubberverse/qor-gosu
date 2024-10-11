@@ -37,6 +37,7 @@ jobs:
           image: mrrubberducky/qor-gosu
           registry: docker.io
           dockerfile: builder/Dockerfile
+          buildArgs: BUILDPLATFORM=linux/amd64,ALPINE_REPO_VERSION=edge
           multiPlatform: true
           enableBuildKit: true
           tags: alpine
