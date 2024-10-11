@@ -30,7 +30,7 @@ jobs:
       - name: QEMU
         uses: docker/setup-qemu-action@v3.2.0
         with:
-          platforms: arm64,arm
+          platforms: arm64
       - name: Build and push to Docker Hub
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
@@ -39,7 +39,7 @@ jobs:
           dockerfile: builder/Dockerfile
           multiPlatform: true
           tags: alpine
-          platform: linux/amd64,linux/i386,linux/arm/v7,linux/arm64
+          platform: linux/amd64,linux/i386,linux/arm64
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Cancel on failure
