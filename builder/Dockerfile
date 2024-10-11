@@ -2,6 +2,7 @@ ARG IMAGE_REPOSITORY=docker.io/library
 ARG IMAGE_ALPINE_VERSION=edge
 
 ARG TARGETPLATFORM
+ARG TARGETARCH
 
 FROM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu-builder
 WORKDIR /app
@@ -61,5 +62,5 @@ RUN apk upgrade --no-cache \
 FROM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu
 WORKDIR /app
 
-COPY --from=gosu-builder /app/go/bin/gosu-${TARGETARCH} /app/gosu
+COPY --from=gosu-builder /app/go/bin/gosu-$TARGETARCH /app/gosu
 
