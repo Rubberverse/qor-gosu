@@ -1,9 +1,9 @@
 ARG IMAGE_REPOSITORY=docker.io/library
 ARG IMAGE_ALPINE_VERSION=edge
 
-ARG BUILDPLATFORM
+ARG TARGETPLATFORM
 
-FROM --platform=$BUILDPLATFORM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu-builder
+FROM --platform=${TARGETPLATFORM} ${IMAGE_REPOSITORY}/alpine:${IMAGE_ALPINE_VERSION} AS gosu-builder
 WORKDIR /app
 
 ARG TARGETOS
@@ -57,3 +57,9 @@ RUN apk upgrade --no-cache \
     && rm -rf /app/go/cache /tmp /app/go/gosu /app/go/bin/govulncheck /usr/bin/go \
     && apk del --rdepends \
         build-deps
+
+FROM --platform=${TARGETPLATFORM} ${IMAGE_REPOSITORY}/alpine:${IMAGE_ALPINE_VERSION} AS gosu
+WORKDIR /app
+
+COPY --from=gosu-builder /app/go/bin/gosu-${TARGETARCH} /app/gosu
+
