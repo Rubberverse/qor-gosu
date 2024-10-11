@@ -61,3 +61,6 @@ ARG TARGETARCH
 
 COPY --from=gosu-builder /app/go/bin/gosu-$TARGETARCH /app/gosu
 
+RUN apk update \
+    && apk upgrade --no-cache
+
