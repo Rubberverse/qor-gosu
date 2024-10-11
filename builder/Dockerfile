@@ -1,16 +1,11 @@
 ARG IMAGE_REPOSITORY=docker.io/library
 ARG IMAGE_ALPINE_VERSION=edge
 
-ARG TARGETPLATFORM
-ARG TARGETARCH
-
-FROM --platform=$TARGETPLATFORM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu-builder
+FROM --platform=$BUILDPLATFORM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu-builder
 WORKDIR /app
 
 ARG TARGETOS
 ARG TARGETARCH
-
-LABEL stage=gosu-builder
 
 ARG ALPINE_REPO_URL=https://dl-cdn.alpinelinux.org/alpine \
     ALPINE_REPO_VERSION=v3.19 \
@@ -59,11 +54,10 @@ RUN apk upgrade --no-cache \
     && apk del --rdepends \
         build-deps
 
-ARG TARGETPLATFORM
-ARG TARGETARCH
-
 FROM --platform=$TARGETPLATFORM $IMAGE_REPOSITORY/alpine:$IMAGE_ALPINE_VERSION AS gosu
 WORKDIR /app
+
+ARG TARGETARCH
 
 COPY --from=gosu-builder /app/go/bin/gosu-$TARGETARCH /app/gosu
 
